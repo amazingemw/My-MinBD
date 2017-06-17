@@ -1,0 +1,113 @@
+module pipeline_one_tb();
+
+reg [6:0] inc;
+reg nsig;
+reg ssig;
+reg esig;
+reg wsig;
+reg clksig;              //To be taken into master module
+reg clk;
+wire [10:0] noun;
+wire [10:0] soun;
+wire [10:0] eoun;
+wire [10:0] woun;
+
+always begin
+#5.5 clk = ~clk;
+end
+
+initial begin
+
+    nsig = 0;
+    ssig = 0;
+    esig = 0;
+    wsig = 0;
+    clk = 0;	 
+	
+#2  inc  = 7'bz;
+    nsig = 1;	
+#2  nsig = 0;	
+    inc  = 7'b0000101;
+    ssig = 1;	
+#2  ssig = 0;	
+    inc  = 7'b1100001;
+    esig = 1;
+#2  esig = 0;	
+    inc  = 7'b0100100;
+    wsig = 1;	
+
+#2  wsig = 0; 
+    inc  = 7'b1100100; //l
+    nsig = 1;
+#2  nsig = 0;	
+    inc  = 7'b0111111; //e
+    ssig = 1;
+#2  ssig = 0;	
+    inc  = 7'b0101100; //n
+    esig = 1;
+#2  esig = 0;	
+    inc  = 7'b0011100; //w
+    wsig = 1;
+
+#2  wsig = 0; 
+    inc  = 7'b0100110; //e
+    nsig = 1;
+#2  nsig = 0;	
+    inc  = 7'b0000001; //w
+    ssig = 1;
+#2  ssig = 0;	
+    inc  = 7'b1101100; //l
+    esig = 1;
+#2  esig = 0;	
+    inc  = 7'b0100100; //w
+    wsig = 1;	
+
+#2  wsig = 0; 
+    inc  = 7'b0111100; //n
+    nsig = 1;
+#2  nsig = 0;	
+    inc  = 7'b0000011; //w
+    ssig = 1;
+#2  ssig = 0;	
+    inc  = 7'b0100100; //s
+    esig = 1;
+#2  esig = 0;	
+    inc  = 7'b0010101; //e
+    wsig = 1;
+
+#2  wsig = 0; 
+    inc  = 7'b0100100; //w
+    nsig = 1;
+#2  nsig = 0;	
+    inc  = 7'b0110100; //n
+    ssig = 1;
+#2  ssig = 0;	
+    inc  = 7'bz; //e
+    esig = 1;
+#2  esig = 0;	
+    inc  = 7'b0100111; //l
+    wsig = 1;
+
+#2  wsig = 0; 
+    clksig = 1;
+#1  clksig = 0; 	
+
+end
+
+
+pipeline_one U0 (
+.inc(inc),
+.nsig(nsig),
+.ssig(ssig),
+.esig(esig),
+.wsig(wsig),
+.clksig(clksig),
+.clk(clk),
+.noun(noun),
+.soun(soun),
+.eoun(eoun),
+.woun(woun)
+);
+
+
+endmodule
