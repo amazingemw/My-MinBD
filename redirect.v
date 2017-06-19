@@ -10,7 +10,8 @@ nad,
 sad,
 ead,
 wad,
-buffit
+buffit,
+inject
 );
 
 input [2:0] cthulhu;
@@ -23,6 +24,8 @@ output [10:0] sad;
 output [10:0] ead;
 output [10:0] wad;
 output [10:0] buffit;
+output inject;
+
 
 wire [2:0] cthulhu;
 wire [10:0] northad;  
@@ -34,6 +37,7 @@ reg [10:0] sad;
 reg [10:0] ead;
 reg [10:0] wad;
 reg [10:0] buffit;
+reg inject;
 
 reg [1:0] R;
 
@@ -43,8 +47,11 @@ always @ (cthulhu) begin
 	sad = southad;
 	ead = eastad;
 	wad = westad;
+	inject = 0;
 	R = {$random} %2;
-	if((cthulhu === 5) && (northad !== 11'bz)  && (southad !== 11'bz) && (eastad !== 11'bz) && (westad !== 11'bz)) begin
+	if((northad === 11'bz) || (southad === 11'bz) || (eastad === 11'bz) || (westad === 11'bz))
+		inject = 1;
+	else if((cthulhu === 5) && (northad !== 11'bz)  && (southad !== 11'bz) && (eastad !== 11'bz) && (westad !== 11'bz)) begin
 		if(R === 2'b00) begin
 			buffit = northad;
 			nad = 11'bz;

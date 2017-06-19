@@ -1,0 +1,54 @@
+module side_buffer(
+sbin,
+inject,			//SIGNAL TO INJECT INTO CHANNEL FROM REDIRECT
+cthulhu,
+sbout
+);
+
+input [10:0] sbin;
+input inject;
+input [2:0] cthulhu;
+output [10:0] sbout;
+
+wire [10:0] sbin;
+wire inject;
+wire [2:0] cthulhu;
+reg [10:0] sbout;
+
+reg [10:0] side_buff [0:5];
+reg [2:0] i;
+reg [2:0] j;
+reg [2:0] k;
+
+initial begin
+	i = 0;
+	j = 0;
+	k = 0;
+	sbout = 11'bz;
+	for( k = 0; k < 6 ; k = k+1) begin   //ERRORS IN SIMULATION GONE AFTER INITIALISING ALL side_buff AS 0 
+		side_buff[k] = 11'bz;
+	end
+end
+
+always @ (cthulhu,sbin,inject) begin                         //UNEXPECTED ERRORS WERE DUE TO NO begin HERE
+	
+	if( (i < 6) && (sbin !== 11'bz)) begin
+		$display("pakalu papitu");
+		if(side_buff [5] === 11'bz) begin
+			side_buff [i] = sbin;
+		end
+		i = i+1;
+	end
+	if((cthulhu === 5) || (inject === 1)) begin
+		$display("bimboman");
+		sbout = side_buff [0];
+		for( j=0 ; j<5 ; j = j+1 ) begin          
+   				side_buff [j] = side_buff [j+1];
+				side_buff [j+1] = 11'bz;
+		end
+		if(i !== 0)
+		i = i-1;
+	end
+end
+
+endmodule

@@ -77,25 +77,25 @@ always @ (nsig or ssig or esig or wsig or clk) begin
 			noun = 11'bz;
 		else begin
 			{noun[10],noun[5:0]} = pipeline [0];
-			noun [9:6] = 4'b000;
+			noun [9:6] = 4'bz;
 		end
 		if(pipeline[1][6] === 1'bz)
 			soun = 11'bz;
 		else begin
 			{soun[10],soun[5:0]} = pipeline [1]; 
-			soun [9:6] = 4'b000;
+			soun [9:6] = 4'bz;
 		end
 		if(pipeline[2][6] === 1'bz)
 			eoun = 11'bz;
 		else begin
 			{eoun[10],eoun[5:0]} = pipeline [2];
-			eoun [9:6] = 4'b000;
+			eoun [9:6] = 4'bz;
 		end
 		if(pipeline[3][6] === 1'bz)
 			woun = 11'bz;
 		else begin
 			{woun[10],woun[5:0]} = pipeline [3];
-			woun [9:6] = 4'b000;
+			woun [9:6] = 4'bz;
 		end
 		for(j = 0; j<16 ; j = j+1) begin          
    			pipeline [j] = pipeline [j+4];

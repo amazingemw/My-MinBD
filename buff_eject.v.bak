@@ -1,8 +1,9 @@
-module buff_eject(
+module buff_eject (
 northad,
 southad,
 eastad,
 westad,
+cthulhu,
 nad,
 sad,
 ead,
@@ -14,6 +15,7 @@ input [10:0] northad;
 input [10:0] southad;
 input [10:0] eastad;
 input [10:0] westad;
+input [2:0] cthulhu;
 output [10:0] nad;
 output [10:0] sad;
 output [10:0] ead;
@@ -24,6 +26,7 @@ wire [10:0] northad;
 wire [10:0] southad;
 wire [10:0] eastad;
 wire [10:0] westad;
+wire [2:0] cthulhu;
 reg [10:0] nad;
 reg [10:0] sad;
 reg [10:0] ead;
@@ -32,10 +35,11 @@ reg [10:0] sbuff;
 
 reg [1:0] R;
 reg flag;
-
-initial begin
-	flag = 0
-end
+reg i;
+reg j;
+reg k;
+reg l;
+reg sig;
 
 always @ (northad,southad,eastad,westad) begin
 	sad = {southad[10:9],3'bz,southad[5:0]};
@@ -43,45 +47,71 @@ always @ (northad,southad,eastad,westad) begin
 	wad = {westad[10:9],3'bz,westad[5:0]};
 	nad = {northad[10:9],3'bz,northad[5:0]};
 	flag = 0;
-	while (flag === 0) begin
-		R = $random %2;
-		if(R === 2'b00) begin	
-			if(northad[8:6] === 3'b010)
-				flag = 0;
-			else begin
-				sbuff = nad;
-				nad = 11'bz; 
-				flag = 1;
-			end
-		end
-		if(R === 2'b01) begin
-			if(southad[8:6] === 3'b011)
-				flag = 0;
-			else begin
-				sbuff = sad;
-				sad = 11'bz;
-				flag = 1;
+	i = 0;
+	j = 0;
+	k = 0;
+	l = 0;
+	sig = 0;
+	sbuff = 11'bz;
+	if(cthulhu !== 5) begin
+		while (flag === 0) begin
+			if(sig === 0) begin
+				if((i === 0) && (j === 0) && (k === 0) && (l === 0))
+					R = $unsigned($random) %2;
+				else begin
+					if(i === 0)
+						R = 2'b00;
+					else if(j === 0)
+						R = 2'b01;	
+					else if(k === 0)
+						R = 2'b10;
+					else if(l === 0)
+						R = 2'b11;
+						else
+						flag = 1;
+				end 
+				sig = 1; 
 			end 
-		end
-		if(R === 2'b10) begin
-			if(eastad[8:6] === 3'b000)
-				flag = 0;
-			else begin
-				sbuff = ead;
-				ead = 11'bz;
-				flag = 1;
-			end
-		end
-		if(R === 2'b11) begin
-			if(westad[8:6] === 3'b001)
-				flag = 0;
-			else begin
-				sbuff = wad;
-				wad = 11'bz;
-				flag = 1;
-			end
-		end
-	end	
-end
+			if(sig === 1) begin
+				if(R === 2'b00) begin	
+					if(northad[8:6] === 3'b010)
+						i = 1;
+					else begin
+						sbuff = {northad[10:9],3'bz,northad[5:0]};
+						nad = 11'bz; 
+						flag = 1;
+					end
+				end else if(R === 2'b01) begin
+					if(southad[8:6] === 3'b011)
+						j = 1;
+					else begin
+						sbuff = {southad[10:9],3'bz,southad[5:0]};
+						sad = 11'bz;
+						flag = 1;
+					end 
+				end
+				else if(R === 2'b10) begin
+					if(eastad[8:6] === 3'b000)
+						k = 1;
+					else begin
+						sbuff = {eastad[10:9],3'bz,eastad[5:0]};
+						ead = 11'bz;
+						flag = 1;
+					end
+				end
+				else if(R === 2'b11) begin
+					if(westad[8:6] === 3'b001)
+						l = 1;
+					else begin
+						sbuff = {westad[10:9],3'bz,westad[5:0]};
+						wad = 11'bz;
+						flag = 1;
+					end
+				end
+				sig = 0;
+			end 			// END OF if(sig)
+		end 				// END OF while  
+	end					// END OF if(cthulhu) 
+end						// END OF always BLOCK
 
 endmodule

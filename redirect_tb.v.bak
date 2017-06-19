@@ -1,6 +1,6 @@
 module redirect_tb();
 
-reg cthulhu;
+reg [2:0] cthulhu;
 reg [10:0] northad;  
 reg [10:0] southad; 
 reg [10:0] eastad; 

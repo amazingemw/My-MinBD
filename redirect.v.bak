@@ -37,10 +37,8 @@ reg [10:0] buffit;
 
 reg [1:0] R;
 
-always @ (northad,southad,eastad,westad)
-buffit = 11'bz;
-
 always @ (cthulhu) begin
+	buffit = 11'bz;
 	nad = northad;
 	sad = southad;
 	ead = eastad;

@@ -10,7 +10,7 @@ wire [10:0] sad;
 wire [10:0] ead;
 wire [10:0] wad;
 wire [10:0] buffit;
-
+wire inject;
 
 initial begin
     cthulhu = 5;
@@ -58,7 +58,8 @@ nad,
 sad,
 ead,
 wad,
-buffit
+buffit,
+inject
 );
 
 

@@ -4,6 +4,7 @@ reg [10:0] northad;
 reg [10:0] southad;
 reg [10:0] westad;
 reg [10:0] eastad;         //0 is from east, 1 from west, 2 from north, 3 from south 
+reg [2:0] cthulhu;
 wire [10:0] nad;           //0 is to east, 1 to west, 2 to north, 3 to south 
 wire [10:0] sad;
 wire [10:0] ead;
@@ -12,30 +13,41 @@ wire [10:0] sbuff;
 
 
 initial begin
-   northad = 11'b10010101100; //to north 
-   southad = 11'b01010101100; //to north
-   eastad  = 11'b00011001100; //to south
-   westad  = 11'b00000100111; //to east
+    cthulhu = 1;
+    northad = 11'b10010101100; //to north 
+    southad = 11'b01010101100; //to north
+    eastad  = 11'b00011001100; //to south
+    westad  = 11'b00000100111; //to east
  
-#4  northad = 11'b10010101100; //to north
+#4  cthulhu = 2;
+    northad = 11'b10010101100; //to north
     southad = 11'b00011000100; //to south
     eastad  = 11'b01001101101; //to east
     westad  = 11'b00000011001; //to west
    
-#4  northad = 11'b00010111100; //to north
+#4  cthulhu = 3;
+    northad = 11'b00010111100; //to north
     southad = 11'b10011001100; //to south
     eastad  = 11'b00000010101; //to east	
     westad  = 11'b01001101000; //to west
    
-#4  northad = 11'b01010110100; //to north
+#4  cthulhu = 4;
+    northad = 11'b01010110100; //to north
     southad = 11'b00011010100; //to south
     eastad  = 11'b00011001100; //to south
     westad  = 11'b00010110100; //to north	
  
-#4  northad = 11'b00010101100; //to north
+#4  cthulhu = 5;
+    northad = 11'b00010101100; //to north
     southad = 11'b01011011100; //to south
     eastad  = 11'b10001101101; //to east
     westad  = 11'b00000010101; //to east	
+
+#4  cthulhu = 1;
+    northad = 11'bz; //to north
+    southad = 11'bz; //to south
+    eastad  = 11'bz; //to east
+    westad  = 11'bz; //to east	
 #5 $finish;
 end
 
@@ -43,7 +55,8 @@ buff_eject U0 (   //Connect DUT to test bench
  northad,
  southad,
  eastad,
- westad,        //0 is from east, 1 from west, 2 from north, 3 from south 
+ westad,        //0 is from east, 1 from west, 2 from north, 3 from south
+ cthulhu, 
  nad,           //0 is to east, 1 to west, 2 to north, 3 to south 
  sad,
  ead,
